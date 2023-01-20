@@ -86,7 +86,8 @@ func CheckJiraURL(mattermostSiteURL, jiraURL string, requireHTTPS bool) (_ strin
 				"This could be because of existing firewall or proxy rules, or because the URL was entered incorrectly")
 		}
 	}()
-
+	
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	resp, err := http.Get(jiraURL + "/status")
 	if err != nil {
 		return "", err
